@@ -1,0 +1,21 @@
+# Terraform Sentinal policy to ensure that memory allocated is no more than one gigabyte
+# At https://github.com/wilsonmar/tf-samples/blob/main/hashidocs-any-sample-001-memory-display.sentinel
+# Described at https://wilsonmar.github.io/tfe
+# Based on https://docs.hashicorp.com/sentinel/language
+
+import "units"
+
+memory = func(job) {
+  result = 0
+  for job.groups as g {
+    for g.tasks as t {
+      result += t.resources.memory else 0
+    }
+  }
+
+  return result
+}
+
+main = rule {
+  memory(job) < 1 * units.gigabyte
+}

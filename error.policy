@@ -1,0 +1,5 @@
+# This error-sentinel.policy always returns a violation (4 is never less than 2).
+
+hour = 4  // hard-coded value.
+
+main = rule { hour >= 0 and hour < 2 }
